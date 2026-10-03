@@ -14,7 +14,7 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(group = "Examples", name = "Example Autonomous")
+@Autonomous(group = "Autos", name = "Hypatia First Auto")
 public class HypatiaFirstAuto extends OpMode {
     // Set up bot
     private Follower follower;
