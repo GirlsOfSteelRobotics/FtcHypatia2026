@@ -23,7 +23,7 @@ public class HypatiaFirstAuto extends OpMode {
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
     private final Pose startPose = poseFactory.of(-15, -62, 90);
-    private final Pose scorePose = poseFactory.of(-6git 0, 24, 90);
+    private final Pose scorePose = poseFactory.of(-60, 24, 90);
     //private final Pose parkPose = poseFactory.of(72, 48, 90);
 
     // Path methods
