@@ -11,6 +11,7 @@ public class BiancaTeleop extends OpMode {
     private Follower follower;
 
     private IntakeSubsystem intake;
+    private ShooterSubsystem shooter;
 
     @Override
     public void init() {
@@ -33,6 +34,26 @@ public class BiancaTeleop extends OpMode {
         }
         else{
             intake.off();
+        }
+        if (gamepad1.left_bumper){
+            intake.reverse();
+
+        }
+        if (gamepad1.y){
+            shooter.on();
+        }
+        else{
+            shooter.off();
+        }
+        if (gamepad1.a) {
+            shooter.reverse();
+        }
+        else{
+            shooter.off();
+
+
+
+
         }
     }
 }
