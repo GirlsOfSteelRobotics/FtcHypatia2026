@@ -12,11 +12,11 @@ public class IntakeSubsystem {
     }
 
     public void on() {
-        intake.setPower(1.0);
+        intake.setPower(-0.45);
     }
 
     public void reverse() {
-        intake.setPower(-1.0);
+        intake.setPower(0.45);
     }
 
     public void off() {
