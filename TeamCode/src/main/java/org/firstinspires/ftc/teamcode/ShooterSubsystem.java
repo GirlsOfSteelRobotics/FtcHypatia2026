@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import androidx.annotation.Nullable;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -26,5 +28,16 @@ public class ShooterSubsystem {
 
     public double shooterSpeed() {
         return shooter.getPower();
+
+    }
+
+
+    public boolean motorReady(){
+        if (shooterSpeed()==1){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
