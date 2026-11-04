@@ -22,4 +22,11 @@ public class IntakeSubsystem {
     public void off() {
         intake.setPower(0);
     }
+
+    public double intakeSpeed(){
+        return intake.getPower();
+
+    }
+
+
 }

@@ -23,4 +23,8 @@ public class ShooterSubsystem {
     public void off() {
         shooter.setPower(0);
     }
+
+    public double shooterSpeed() {
+        return shooter.getPower();
+    }
 }

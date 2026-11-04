@@ -29,31 +29,37 @@ public class BiancaTeleop extends OpMode {
         follower.update();
 
 
-        if (gamepad1.left_trigger >0.5){
+        if (gamepad1.left_trigger > 0.5) {
             intake.on();
-        }
-        else{
+        } else {
             intake.off();
         }
-        if (gamepad1.left_bumper){
+        if (gamepad1.left_bumper) {
             intake.reverse();
 
         }
-        if (gamepad1.y){
+        if (gamepad1.y) {
             shooter.on();
-        }
-        else{
+        } else {
             shooter.off();
         }
         if (gamepad1.a) {
             shooter.reverse();
-        }
-        else{
+        } else {
             shooter.off();
 
 
-
-
         }
+
+        telemetry.addData("X", follower.pose().x());
+        telemetry.addData("Y", follower.pose().y());
+        telemetry.addData("Heading", Math.toDegrees(follower.pose().heading()));
+        telemetry.addData("Follower Mode", follower.mode());
+        telemetry.addData("Intake Speed", intake.intakeSpeed());
+        telemetry.addData("Shooter Speed", shooter.shooterSpeed());
+        telemetry.update();
+
     }
 }
+
+
