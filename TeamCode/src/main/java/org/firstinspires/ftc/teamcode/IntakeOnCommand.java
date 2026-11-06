@@ -12,7 +12,8 @@ import java.util.Set;
 public class IntakeOnCommand implements Command {
 
     private final IntakeSubsystem intake;
-    public IntakeOnCommand(IntakeSubsystem intake) {
+    public
+    IntakeOnCommand(IntakeSubsystem intake) {
         this.intake = intake;
     }
 
