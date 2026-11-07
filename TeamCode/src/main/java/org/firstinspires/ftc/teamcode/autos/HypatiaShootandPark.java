@@ -16,6 +16,7 @@ import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.OpModeStorage;
+import org.firstinspires.ftc.teamcode.SarahBotConstants;
 
 @Autonomous(group = "Hypatia", name = "Hypatia Shoot and Park")
 public class  HypatiaShootandPark extends OpMode {
@@ -31,19 +32,19 @@ public class  HypatiaShootandPark extends OpMode {
 
     private final Pose midPose = poseFactory.of(105.6, 108.1, 270);
 
-    private final Pose parkPose = poseFactory.of(131, 47.7, 270);
+    private final Pose parkPose = poseFactory.of(129, 47.7, 270);
 
     // Path methods
     private Path startToScore() {
-        return line(startPose, scorePose);
+        return line(startPose, scorePose).linear(startPose, scorePose);
     }
 
     private Path scoreToMid(){
-        return line(scorePose, midPose);
+        return line(scorePose, midPose).linear(scorePose, midPose);
     }
 
     private Path midToPark(){
-        return line(midPose, parkPose);
+        return line(midPose, parkPose).linear(midPose, parkPose);
     }
 
     private Command autoRoutine() {
@@ -60,7 +61,7 @@ public class  HypatiaShootandPark extends OpMode {
     public void init() {
         Scheduler.reset();
 
-        follower = Constants.create(hardwareMap);
+        follower = SarahBotConstants.create(hardwareMap);
         follower.setPose(startPose);
         follower.update();
     }
