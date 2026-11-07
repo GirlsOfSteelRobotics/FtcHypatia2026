@@ -17,32 +17,42 @@ import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.OpModeStorage;
 
-@Autonomous(group = "Examples", name = "Example Autonomous")
-public class ExampleAuto extends OpMode {
+@Autonomous(group = "Hypatia", name = "Hypatia Shoot and Park")
+public class  HypatiaShootandPark extends OpMode {
     // Set up bot
     private Follower follower;
 
     // Set up paths and poses
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
-    private final Pose startPose = poseFactory.of(24, 24, 0);
-    private final Pose scorePose = poseFactory.of(48, 48, 90);
-    private final Pose parkPose = poseFactory.of(72, 48, 90);
+    private final Pose startPose = poseFactory.of(83.7, 133.6, 270);
+
+    private final Pose scorePose = poseFactory.of(84, 116.6, 270);
+
+    private final Pose midPose = poseFactory.of(105.6, 108.1, 270);
+
+    private final Pose parkPose = poseFactory.of(131, 47.7, 270);
 
     // Path methods
     private Path startToScore() {
-        return line(startPose, scorePose).linear(startPose, scorePose);
+        return line(startPose, scorePose);
     }
 
-    private Path park(){
-        return line(scorePose, parkPose).linear(scorePose, parkPose);
+    private Path scoreToMid(){
+        return line(scorePose, midPose);
+    }
+
+    private Path midToPark(){
+        return line(midPose, parkPose);
     }
 
     private Command autoRoutine() {
         return sequential(
                 follow(follower, startToScore()),
                 // Add mechanism commands here.
-                follow(follower, park())
+                follow(follower, scoreToMid()),
+
+                follow(follower, midToPark())
         );
     }
 
