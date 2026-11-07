@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.examples;
+package org.firstinspires.ftc.teamcode.autos;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.follower.Follower;
