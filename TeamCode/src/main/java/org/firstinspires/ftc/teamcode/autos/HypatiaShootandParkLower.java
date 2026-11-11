@@ -14,13 +14,17 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.IntakeRampSubsystem;
 import org.firstinspires.ftc.teamcode.OpModeStorage;
 import org.firstinspires.ftc.teamcode.SarahBotConstants;
 
 @Autonomous(group = "Hypatia", name = "Hypatia Shoot and Park Lower")
 public class HypatiaShootandParkLower extends OpMode {
+
     // Set up bot
     private Follower follower;
+    private IntakeRampSubsystem intakeRampSubsystem;
+
 
     // Set up paths and poses
     private final PoseFactory poseFactory = PoseFactory.degrees();
@@ -36,14 +40,24 @@ public class HypatiaShootandParkLower extends OpMode {
         return line(startPose, scorePose).linear(startPose, scorePose);
     }
 
+
     private Path scoreToPark(){
         return line(scorePose, parkPose).linear(scorePose, parkPose);
     }
 
     private Command autoRoutine() {
         return sequential(
+
+                // start itttttttt befooooore yooooooou put the balllllllllls innnnnnn???????????????????
                 follow(follower, startToScore()),
+
+                intakeRampSubsystem.shooterOnCommand(),
+
+                //delay(77777),
+
+                intakeRampSubsystem.shooterOffCommand(),
                 // Add mechanism commands here.
+
                 follow(follower, scoreToPark())
         );
     }
@@ -55,7 +69,9 @@ public class HypatiaShootandParkLower extends OpMode {
         follower = SarahBotConstants.create(hardwareMap);
         follower.setPose(startPose);
         follower.update();
+        intakeRampSubsystem = new IntakeRampSubsystem(hardwareMap);
     }
+
 
     @Override
     public void start() {

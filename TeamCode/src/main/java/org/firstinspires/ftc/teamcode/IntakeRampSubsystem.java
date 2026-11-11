@@ -1,13 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
+import static com.pedropathing.ivy.commands.Commands.instant;
+
+import com.pedropathing.ivy.Command;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class IntakeRamp {
+public class IntakeRampSubsystem {
     private final DcMotor intake;
     private final DcMotor shooter;
 
-    public IntakeRamp(HardwareMap hardwareMap){
+    public IntakeRampSubsystem(HardwareMap hardwareMap){
        intake = hardwareMap.get(DcMotor.class, "intake");
        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -53,5 +56,26 @@ public class IntakeRamp {
 
     }
 
+    public Command intakeRampOn() {
+        return instant(() -> intakeOn());
+    }
 
+    public Command intakeRampOff() {
+        return instant(() -> intakeOff());
+    }
+
+    public Command intakeRampReverse() {
+        return instant(() -> intakeReverse());
+    }
+    public Command shooterOnCommand() {
+        return instant(() -> shooterOn());
+    }
+
+    public Command shooterOffCommand() {
+        return instant(() -> shooterOff());
+    }
+
+    public Command shooterReverseCommand() {
+        return instant(() -> shooterReverse());
+    }
 }
