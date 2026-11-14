@@ -4,18 +4,21 @@ import static com.pedropathing.ivy.commands.Commands.instant;
 
 import com.pedropathing.ivy.Command;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class IntakeRampSubsystem {
     private final DcMotor intake;
-    private final DcMotor shooter;
+    private final DcMotorEx shooter;
 
     public IntakeRampSubsystem(HardwareMap hardwareMap){
        intake = hardwareMap.get(DcMotor.class, "intake");
        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-       shooter = hardwareMap.get(DcMotor.class, "shooter");
+       shooter = hardwareMap.get(DcMotorEx.class, "shooter");
        shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void intakeOn() {
@@ -43,17 +46,20 @@ public class IntakeRampSubsystem {
 
     public void shooterReverse() {
         intake.setPower(0);
-        shooter.setPower(-1.0);
+        shooter.setPower(-0.2);
     }
 
     public void shooterOff() {
         shooter.setPower(0);
+    }
 
+    public void shooterUnjam() {
+        if(shooter.getVelocity()==0)
+            shooterReverse();
     }
 
     public double shooterSpeed(){
         return shooter.getPower();
-
     }
 
     public Command intakeRampOn() {
