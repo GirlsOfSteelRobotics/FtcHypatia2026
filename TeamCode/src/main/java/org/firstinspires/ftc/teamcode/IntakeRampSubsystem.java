@@ -6,10 +6,13 @@ import com.pedropathing.ivy.Command;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class IntakeRampSubsystem {
     private final DcMotor intake;
     private final DcMotorEx shooter;
+
+    private ElapsedTime timer;
 
     public IntakeRampSubsystem(HardwareMap hardwareMap){
        intake = hardwareMap.get(DcMotor.class, "intake");
@@ -53,12 +56,12 @@ public class IntakeRampSubsystem {
         shooter.setPower(0);
     }
 
-    public void shooterUnjam() {
-        if(shooter.getVelocity()==0)
+    public Command shooterUnjam() {
+        if(shooter.getVelocity()<0.4)
             shooterReverse();
     }
 
-    public double shooterSpeed(){
+    public double getShooterSpeed(){
         return shooter.getVelocity();
     }
 
@@ -84,4 +87,37 @@ public class IntakeRampSubsystem {
     public Command shooterReverseCommand() {
         return instant(() -> shooterReverse());
     }
+
+    Command shooterShoot = Command.build()
+            .setStart(() -> shooterOnCommand())
+            .setExecute(() -> {
+                getShooterSpeed();
+                //if(getShooterSpeed()<0.4){
+                //shooterReverse();
+            //}
+                if(getShooterSpeed()==1.0) {
+                    intakeRampOn();
+                    timer=new ElapsedTime();
+                }
+            })
+            .setDone(() -> if(shooterSpeed() == 1.0 && timer.seconds() >= 4))
+
+
+
+
+
+
+
+
+            .setEnd(shooterOffCommand())
+            .requiring(armMotor);
+
+    //Command shooterUnjam = Command.build()
+    //    .setStart(() -> pidController.setTarget(RAISED_ARM_POSITION)) *start the shooter motor*
+    //    .setExecute(() -> {
+    //        armMotor.setPower(pidController.calculate(armMotor.getCurrentPosition())); *check if the shooter is up to speed*
+    //    }) *if motor is up to speed then use the intake wheels to put the balls up into the shooter*
+    //    .setDone(() -> Math.abs(pidController.getTarget() - armMotor.getCurrentPosition()) < 10) *done when the shooter is at a constant speed*
+    //    .setEnd(endCondition -> armMotor.setPower(0))
+    //    .requiring(armMotor);
 }

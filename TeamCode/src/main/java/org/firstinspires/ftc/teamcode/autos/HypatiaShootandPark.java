@@ -15,6 +15,7 @@ import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.IntakeRampSubsystem;
 import org.firstinspires.ftc.teamcode.OpModeStorage;
 import org.firstinspires.ftc.teamcode.SarahBotConstants;
 
@@ -22,6 +23,7 @@ import org.firstinspires.ftc.teamcode.SarahBotConstants;
 public class  HypatiaShootandPark extends OpMode {
     // Set up bot
     private Follower follower;
+    private IntakeRampSubsystem shooterAndIntake;
 
     // Set up paths and poses
     private final PoseFactory poseFactory = PoseFactory.degrees();
@@ -47,13 +49,21 @@ public class  HypatiaShootandPark extends OpMode {
         return line(midPose, parkPose).linear(midPose, parkPose);
     }
 
+
+
     private Command autoRoutine() {
         return sequential(
                 follow(follower, startToScore()),
                 // Add mechanism commands here.
+                shooterAndIntake.shooterOnCommand(),
+
+                shooterAndIntake.shooterUnjam(),
+
                 follow(follower, scoreToMid()),
 
                 follow(follower, midToPark())
+
+
         );
     }
 
