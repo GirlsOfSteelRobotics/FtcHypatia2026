@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.OpModeStorage;
+import org.firstinspires.ftc.teamcode.SarahBotConstants;
 
 @Autonomous(group = "Autos", name = "Practice auto")
 public class First_Auto extends OpMode {
@@ -68,10 +69,10 @@ public class First_Auto extends OpMode {
     public void init() {
         Scheduler.reset();
 
-        follower = Constants.create(hardwareMap);
+        follower = SarahBotConstants.create(hardwareMap);
         follower.setPose(startPose);
         follower.update();
-    }
+    } 
 
     @Override
     public void start() {
@@ -94,4 +95,5 @@ public class First_Auto extends OpMode {
     {
         OpModeStorage.autonmousEndPose = follower.pose();
     }
+
 }
