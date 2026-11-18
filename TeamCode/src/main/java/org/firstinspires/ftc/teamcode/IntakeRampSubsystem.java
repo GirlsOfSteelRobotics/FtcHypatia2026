@@ -59,7 +59,7 @@ public class IntakeRampSubsystem {
     }
 
     public double shooterSpeed(){
-        return shooter.getPower();
+        return shooter.getVelocity();
     }
 
     public Command intakeRampOn() {
