@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,14 +11,23 @@ public class BiancaTeleop extends OpMode {
 
     private Follower follower;
 
-    private IntakeSubsystem intake;
-    private ShooterSubsystem shooter;
+
+
+
+    private IntakeRampSubsystem intake;
 
     @Override
     public void init() {
-        follower = Constants.create(hardwareMap);
-        intake = new IntakeSubsystem(hardwareMap);
+        follower = SarahBotConstants.create(hardwareMap);
+        intake = new IntakeRampSubsystem(hardwareMap);
     }
+
+    @Override
+    public void start() {
+        follower.setPose(OpModeStorage.autonmousEndPose);
+        follower.update();
+    }
+
 
     @Override
     public void loop() {
@@ -30,23 +40,24 @@ public class BiancaTeleop extends OpMode {
 
 
         if (gamepad1.left_trigger > 0.5) {
-            intake.on();
+            intake.intakeOn();
         } else {
-            intake.off();
+            intake.intakeOff();
         }
         if (gamepad1.left_bumper) {
-            intake.reverse();
+            intake.intakeReverse();
 
         }
         if (gamepad1.y) {
-            shooter.on();
+            intake.shooterOn();
         } else {
-            shooter.off();
+            intake.shooterOff();
+
         }
         if (gamepad1.a) {
-            shooter.reverse();
+            intake.shooterReverse();
         } else {
-            shooter.off();
+            intake.shooterOff();
 
 
         }
@@ -56,7 +67,7 @@ public class BiancaTeleop extends OpMode {
         telemetry.addData("Heading", Math.toDegrees(follower.pose().heading()));
         telemetry.addData("Follower Mode", follower.mode());
         telemetry.addData("Intake Speed", intake.intakeSpeed());
-        telemetry.addData("Shooter Speed", shooter.shooterSpeed());
+        telemetry.addData("Shooter Speed", intake.shooterSpeed());
         telemetry.update();
 
     }
