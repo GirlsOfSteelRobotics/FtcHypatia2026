@@ -55,9 +55,10 @@ public class  HypatiaShootandPark extends OpMode {
         return sequential(
                 follow(follower, startToScore()),
                 // Add mechanism commands here.
-                shooterAndIntake.shooterOnCommand(),
+//                shooterAndIntake.shooterOnCommand(),
+                shooterAndIntake.shooterShoot(),
 
-                shooterAndIntake.shooterUnjam(),
+               // shooterAndIntake.shooterUnjam(),
 
                 follow(follower, scoreToMid()),
 

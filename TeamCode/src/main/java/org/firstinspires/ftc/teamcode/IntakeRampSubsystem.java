@@ -88,29 +88,38 @@ public class IntakeRampSubsystem {
         return instant(() -> shooterReverse());
     }
 
-    Command shooterShoot = Command.build()
-            .setStart(() -> shooterOnCommand())
-            .setExecute(() -> {
-                getShooterSpeed();
-                //if(getShooterSpeed()<0.4){
-                //shooterReverse();
-            //}
-                if(getShooterSpeed()==1.0) {
-                    intakeRampOn();
-                    timer=new ElapsedTime();
-                }
-            })
-            .setDone(() -> if(shooterSpeed() == 1.0 && timer.seconds() >= 4))
+    public Command shooterShoot() {
+        return Command.build()
+                .setStart(() -> shooterOnCommand())
+                .setExecute(() -> {
+//                    getShooterSpeed();
+                    if (getShooterSpeed() == 1.0) {
+                        intakeRampOn();
+                        timer = new ElapsedTime();
+                    }
+                })
+                .setDone(() -> {
+                    if (timer.seconds() >= 4) {
+                        intakeOff();
+                        shooterOff();
+                        return true;
+                    }
+                    if (getShooterSpeed() == 0) {
+                        //intakeReverse();
+                       //shooterReverse();
+                        timer.reset();
+                        while (timer.seconds() <= 1.0) {
+                            intakeReverse();
+                            shooterReverse();
+                        }
+                        intakeOff();
+                        shooterOff();
+                        return true;
+                    }
+                    return false;
 
-
-
-
-
-
-
-
-            .setEnd(shooterOffCommand())
-            .requiring(armMotor);
+                });
+    }
 
     //Command shooterUnjam = Command.build()
     //    .setStart(() -> pidController.setTarget(RAISED_ARM_POSITION)) *start the shooter motor*
