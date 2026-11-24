@@ -11,10 +11,14 @@ import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+
+import java.util.List;
 
 
 public class Limelightsubsystem {
     Limelight3A limelight;
+
     public Limelightsubsystem(HardwareMap hardwareMap) {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.setPollRateHz(100); // This sets how often we ask Limelight for data (100 times per second)
@@ -22,7 +26,8 @@ public class Limelightsubsystem {
         limelight.pipelineSwitch(0); // Switch to pipeline number 0
 
     }
-    public Command getInformation(){
+
+    public Command getInformation() {
         LLResult result = limelight.getLatestResult();
         if (result != null && result.isValid()) {
             double tx = result.getTx(); // How far left or right the target is (degrees)
@@ -35,8 +40,24 @@ public class Limelightsubsystem {
         } else {
             telemetry.addData("Limelight", "No Targets");
         }
+        if (result != null && result.isValid()) {
+            Pose3D botpose = result.getBotpose();
+            if (botpose != null) {
+                double x = botpose.getPosition().x;
+                double y = botpose.getPosition().y;
+                telemetry.addData("MT1 Location", "(" + x + ", " + y + ")");
+            }
+
+
+        }
+        List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
+        for (LLResultTypes.FiducialResult fiducial : fiducials) {
+            int id = fiducial.getFiducialId(); // The ID number of the fiducial
+            double x = fiducial.getTargetXDegrees(); // Where it is (left-right)
+            double y = fiducial.getTargetYDegrees(); // Where it is (up-down)
+            double StrafeDistance_3D = fiducial.getRobotPoseTargetSpace().getPosition().y;
+            telemetry.addData("Fiducial " + id, "is " + StrafeDistance_3D + " meters away");
+        }
     }
-
-
 }
 
