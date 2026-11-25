@@ -24,6 +24,7 @@ public class Limelightsubsystem {
         limelight.setPollRateHz(100); // This sets how often we ask Limelight for data (100 times per second)
         limelight.start(); // This tells Limelight to start looking!
         limelight.pipelineSwitch(0); // Switch to pipeline number 0
+        limelight.captureSnapshot("auto_pov_10s");
 
     }
 
